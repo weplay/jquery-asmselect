@@ -22,7 +22,7 @@
 			addItemTarget: 'bottom',				// Where to place new selected items in list: top or bottom
 			hideWhenAdded: false,					// Hide the option when added to the list? works only in FF
 			debugMode: false,					// Debug mode keeps original select visible 
-
+      beforeItemAdded: function(item){}, // callback before the item is added to the DOM
 			removeLabel: 'remove',					// Text used in the "remove" link
 			highlightAddedLabel: 'Added: ',				// Text that precedes highlight of added item
 			highlightRemovedLabel: 'Removed: ',			// Text that precedes highlight of removed item
@@ -256,7 +256,7 @@
 
 				var $itemLabel = $("<span></span>")
 					.addClass(options.listItemLabelClass)
-					.html($O.html()); 
+					.html($O.html());
 
 				var $item = $("<li></li>")
 					.attr('rel', optionId)
@@ -271,9 +271,11 @@
 				}
 
 				if(options.addItemTarget == 'top' && !buildingSelect) {
+				  options.beforeItemAdded($item);
 					$ol.prepend($item); 
 					if(options.sortable) $original.prepend($O); 
 				} else {
+				  options.beforeItemAdded($item);
 					$ol.append($item); 
 					if(options.sortable) $original.append($O); 
 				}
